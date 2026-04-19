@@ -183,6 +183,9 @@ Key fields:
 
 ## Changelog
 
+### v1.0.23
+- Feat: bump ios-network-metrics-sdk to v1.0.18 — MCC/MNC/operator (iOS 14–16.3), loaded latency under download
+
 ### v1.0.22
 - Fix: bump ios-network-metrics-sdk to v1.0.17 — parallel chunk download loop, no delegate, no race
 
