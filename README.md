@@ -183,6 +183,10 @@ Key fields:
 
 ## Changelog
 
+### v1.0.7
+- Feat: add `speedDownloadDurationMs`, `speedUploadDurationMs`, `speedThreadCount` to `initialize()` API
+- Fix: pass all speed tuning params through to Android Builder and iOS Config
+
 ### v1.0.6
 - Fix: Android `intervalMinutes` → `intervalMs` conversion (Builder API mismatch)
 - Fix: Android `initialize()` → `init()` + `start()` (correct SDK API)

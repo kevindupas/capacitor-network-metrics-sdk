@@ -30,6 +30,9 @@ public class NetworkMetricsSdkPlugin extends Plugin {
             .udpPort(call.getInt("udpPort", 5005))
             .tcpPort(call.getInt("tcpPort", 5006))
             .remoteConfigUrl(call.getString("remoteConfigUrl"))
+            .speedDownloadDurationMs(call.getLong("speedDownloadDurationMs", 8000L))
+            .speedUploadDurationMs(call.getLong("speedUploadDurationMs", 6000L))
+            .speedThreadCount(call.getInt("speedThreadCount", 3))
             .build();
 
         NetworkMetricsSdk.INSTANCE.init(getContext(), config);

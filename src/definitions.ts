@@ -13,6 +13,9 @@ export interface NetworkMetricsSdkPlugin {
     udpPort?: number;
     tcpPort?: number;
     remoteConfigUrl?: string;
+    speedDownloadDurationMs?: number;
+    speedUploadDurationMs?: number;
+    speedThreadCount?: number;
   }): Promise<void>;
 
   measureNow(): Promise<void>;
