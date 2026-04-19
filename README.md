@@ -183,6 +183,23 @@ Key fields:
 
 ## Changelog
 
+### v1.0.5
+- Fix: Android SDK dependency bumped to v1.0.13
+
+### v1.0.4
+- Fix: Android SDK dependency bumped to v1.0.13 (fixes VoLTE/VoNR reflection compilation)
+
+### v1.0.3
+- Fix: add root `Package.swift` for Capacitor SPM auto-detection on iOS
+
+### v1.0.2
+- Fix: tsconfig ES2022 + moduleResolution bundler (fixes dynamic import error in CI)
+- Build script: remove docgen dependency
+- Add CI + release GitHub Actions workflows (npm publish on tag)
+
+### v1.0.1
+- Fix: TypeScript build configuration
+
 ### v1.0.0
 - Initial release — Android + iOS
 - Full API: `initialize`, `measureNow`, `getLastResult`
