@@ -183,6 +183,16 @@ Key fields:
 
 ## Changelog
 
+### v1.0.28
+- Perf: Android SDK v1.0.17 — Cloudflare/Ookla-grade methodology. HTTP/2 + ConnectionPool keep-alive (drops ping handshake overhead on cellular), 2 s TCP slow-start warmup excluded from throughput, outlier-trimmed latency + stddev jitter, 25 MB download / 1 MB upload chunks. **Loaded latency now probed concurrently during the download stream** (true bufferbloat measurement) instead of on an idle post-transfer connection
+
+### v1.0.27
+- Feat: SPEED phase payload — `measurementProgress` SPEED event now carries `downloadMbps`, `uploadMbps`, `latencyMs`, `jitterMs`, `loadedLatencyMs`, `serverName`, `serverLocation` so consumers can display ping/jitter/server as soon as the speed test finishes, without waiting for the full cycle
+
+### v1.0.26
+- Feat: live speed progress events — `SPEED_DOWNLOAD_PROGRESS` / `SPEED_UPLOAD_PROGRESS` phases on `measurementProgress`, each carrying `mbps` (instantaneous throughput sampled every 400 ms during the speed phase)
+- Feat: Android SDK v1.0.15 — Worker wires `onDownloadProgress` / `onUploadProgress` callbacks into `SpeedMeasurement`
+
 ### v1.0.25
 - Feat: `measurementProgress` event — emitted after each phase (SPEED, PACKET_LOSS, STREAMING, SOCIAL_LATENCY, DNS, WEB_BROWSING, RADIO, NETWORK, DEVICE, GEO, COMPLETE)
 - Feat: `streamingUrl` param in `initialize()` — custom HLS URL for streaming measurement

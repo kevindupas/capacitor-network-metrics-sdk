@@ -5,7 +5,10 @@ export class NetworkMetricsSdkWeb extends WebPlugin implements NetworkMetricsSdk
   async initialize(_options: Parameters<NetworkMetricsSdkPlugin['initialize']>[0]): Promise<void> {
     throw this.unimplemented('Not available on web.');
   }
-  async measureNow(): Promise<void> {
+  async measureNow(_options?: { skipSpeed?: boolean }): Promise<void> {
+    throw this.unimplemented('Not available on web.');
+  }
+  async getRadioSnapshot(): ReturnType<NetworkMetricsSdkPlugin['getRadioSnapshot']> {
     throw this.unimplemented('Not available on web.');
   }
   async getLastResult(): Promise<{ json: string | null; timestamp: number }> {
