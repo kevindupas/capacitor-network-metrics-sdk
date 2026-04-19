@@ -183,8 +183,11 @@ Key fields:
 
 ## Changelog
 
+### v1.0.20
+- Fix: bump ios-network-metrics-sdk to v1.0.15 — download speed: `URLSessionDownloadTask` + `didWriteData` delegate (real chunk counts, no byte loop)
+
 ### v1.0.19
-- Fix: bump ios-network-metrics-sdk to v1.0.14 — download speed: replace `bytes(from:)` byte loop with `URLSessionDataDelegate` chunk counting
+- Fix: bump ios-network-metrics-sdk to v1.0.14 — download speed: `URLSessionDataDelegate` chunk counting
 
 ### v1.0.18
 - Fix: bump ios-network-metrics-sdk to v1.0.13 — minimum iOS target bumped to 15.0
