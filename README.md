@@ -183,6 +183,9 @@ Key fields:
 
 ## Changelog
 
+### v1.0.15
+- Fix: bump ios-network-metrics-sdk to v1.0.10 — remove all `withTaskGroup` in measurements + `os_log` debug at each step.
+
 ### v1.0.14
 - Fix: bump ios-network-metrics-sdk to v1.0.9 — `CLLocationManager` main thread crash + `DispatchSemaphore` blocking Swift cooperative thread pool.
 
