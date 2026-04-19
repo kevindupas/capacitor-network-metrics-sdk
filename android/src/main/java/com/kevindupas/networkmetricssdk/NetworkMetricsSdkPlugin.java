@@ -5,8 +5,10 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import com.kevindupas.networkmetrics.core.MeasurementProgress;
 import com.kevindupas.networkmetrics.core.NetworkMetricsConfig;
 import com.kevindupas.networkmetrics.core.NetworkMetricsSdk;
+import com.kevindupas.networkmetrics.core.ProgressCallback;
 
 @CapacitorPlugin(name = "NetworkMetricsSdk")
 public class NetworkMetricsSdkPlugin extends Plugin {
@@ -30,6 +32,7 @@ public class NetworkMetricsSdkPlugin extends Plugin {
             .udpPort(call.getInt("udpPort", 5005))
             .tcpPort(call.getInt("tcpPort", 5006))
             .remoteConfigUrl(call.getString("remoteConfigUrl"))
+            .streamingUrl(call.getString("streamingUrl"))
             .speedDownloadDurationMs(call.getLong("speedDownloadDurationMs", 8000L))
             .speedUploadDurationMs(call.getLong("speedUploadDurationMs", 6000L))
             .speedThreadCount(call.getInt("speedThreadCount", 3))
@@ -42,7 +45,11 @@ public class NetworkMetricsSdkPlugin extends Plugin {
 
     @PluginMethod
     public void measureNow(PluginCall call) {
-        NetworkMetricsSdk.INSTANCE.measureNow(getContext());
+        NetworkMetricsSdk.INSTANCE.measureNow(getContext(), progress -> {
+            JSObject data = new JSObject();
+            data.put("phase", progress.getPhase().name());
+            notifyListeners("measurementProgress", data);
+        });
         call.resolve();
     }
 

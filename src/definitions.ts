@@ -1,3 +1,22 @@
+import type { PluginListenerHandle } from '@capacitor/core';
+
+export type MeasurementPhase =
+  | 'SPEED'
+  | 'PACKET_LOSS'
+  | 'STREAMING'
+  | 'SOCIAL_LATENCY'
+  | 'DNS'
+  | 'WEB_BROWSING'
+  | 'RADIO'
+  | 'NETWORK'
+  | 'DEVICE'
+  | 'GEO'
+  | 'COMPLETE';
+
+export interface MeasurementProgressEvent {
+  phase: MeasurementPhase;
+}
+
 export interface NetworkMetricsSdkPlugin {
   initialize(options: {
     backendUrl: string;
@@ -13,6 +32,7 @@ export interface NetworkMetricsSdkPlugin {
     udpPort?: number;
     tcpPort?: number;
     remoteConfigUrl?: string;
+    streamingUrl?: string;
     speedDownloadDurationMs?: number;
     speedUploadDurationMs?: number;
     speedThreadCount?: number;
@@ -21,4 +41,11 @@ export interface NetworkMetricsSdkPlugin {
   measureNow(): Promise<void>;
 
   getLastResult(): Promise<{ json: string | null; timestamp: number }>;
+
+  addListener(
+    eventName: 'measurementProgress',
+    listenerFunc: (event: MeasurementProgressEvent) => void,
+  ): Promise<PluginListenerHandle>;
+
+  removeAllListeners(): Promise<void>;
 }

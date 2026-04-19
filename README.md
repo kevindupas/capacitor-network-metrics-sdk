@@ -183,6 +183,12 @@ Key fields:
 
 ## Changelog
 
+### v1.0.25
+- Feat: `measurementProgress` event — emitted after each phase (SPEED, PACKET_LOSS, STREAMING, SOCIAL_LATENCY, DNS, WEB_BROWSING, RADIO, NETWORK, DEVICE, GEO, COMPLETE)
+- Feat: `streamingUrl` param in `initialize()` — custom HLS URL for streaming measurement
+- Feat: Android SDK v1.0.14 — `socialTargets` + `streamingUrl` in remote config
+- Feat: `notifyListeners("measurementProgress", { phase })` on Android
+
 ### v1.0.24
 - Fix: bump ios-network-metrics-sdk to v1.0.19 — filter CTCarrier placeholder "--" on iOS 16+
 
