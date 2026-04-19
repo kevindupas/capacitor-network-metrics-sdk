@@ -183,8 +183,11 @@ Key fields:
 
 ## Changelog
 
+### v1.0.10
+- Fix: bump ios-network-metrics-sdk to v1.0.3 (SIGABRT crash fix — `UIDevice.identifierForVendor` moved to `MainActor.run` in `runCycle`)
+
 ### v1.0.9
-- Fix: bump ios-network-metrics-sdk to v1.0.2 (SIGABRT crash fix on `measureNow()` — UIDevice main thread)
+- Fix: bump ios-network-metrics-sdk to v1.0.2 (SIGABRT crash fix on `measureNow()` — UIDevice battery access on main thread)
 
 ### v1.0.8
 - Fix: bump ios-network-metrics-sdk to v1.0.1 (BGTaskScheduler crash fix)
