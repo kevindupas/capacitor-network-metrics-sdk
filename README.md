@@ -183,8 +183,11 @@ Key fields:
 
 ## Changelog
 
+### v1.0.14
+- Fix: bump ios-network-metrics-sdk to v1.0.9 — `CLLocationManager` main thread crash + `DispatchSemaphore` blocking Swift cooperative thread pool.
+
 ### v1.0.13
-- Fix: bump ios-network-metrics-sdk to v1.0.8 — **root cause of `freed pointer` crash**: Swift runtime bug (swift#75501), `async let` heap corruption. Sequential `await` + `Task.detached`.
+- Fix: bump ios-network-metrics-sdk to v1.0.8 — Swift runtime `async let` heap corruption (swift#75501). Sequential `await` + `Task.detached`.
 
 ### v1.0.12
 - Fix: bump ios-network-metrics-sdk to v1.0.7 — `DispatchQueue.main.sync` deadlock on main thread replaced with `MainActor.run`.
