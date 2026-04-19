@@ -1,0 +1,49 @@
+{
+  "name": "capacitor-network-metrics-sdk",
+  "version": "1.0.0",
+  "description": "Capacitor plugin for network metrics measurement (Android + iOS)",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
+  "files": [
+    "android/src/main/",
+    "android/build.gradle",
+    "dist/",
+    "ios/Sources/",
+    "ios/Package.swift",
+    "NetworkMetricsSdkPlugin.podspec",
+    "src/"
+  ],
+  "author": "Kevin Dupas",
+  "license": "MIT",
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  },
+  "scripts": {
+    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
+    "clean": "rimraf ./dist",
+    "docgen": "docgen --api NetworkMetricsSdkPlugin --output-readme README.md",
+    "verify": "npm run verify:ios && npm run verify:android",
+    "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -destination generic/platform=iOS build | xcpretty && cd ..",
+    "verify:android": "cd android && ./gradlew clean build test && cd .."
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/docgen": "^0.2.2",
+    "@capacitor/ios": "^8.0.0",
+    "rimraf": "^5.0.0",
+    "rollup": "^4.0.0",
+    "typescript": "~5.6.2"
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^8.0.0"
+  },
+  "keywords": ["capacitor", "plugin", "network", "metrics", "sdk"]
+}
