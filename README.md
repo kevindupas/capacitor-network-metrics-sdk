@@ -183,6 +183,9 @@ Key fields:
 
 ## Changelog
 
+### v1.0.11
+- Fix: bump ios-network-metrics-sdk to v1.0.6 (CI workflow fix + all UIDevice main thread fixes)
+
 ### v1.0.10
 - Fix: bump ios-network-metrics-sdk to v1.0.3 (SIGABRT crash fix — `UIDevice.identifierForVendor` moved to `MainActor.run` in `runCycle`)
 
