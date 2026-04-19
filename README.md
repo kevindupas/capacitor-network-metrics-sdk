@@ -183,6 +183,9 @@ Key fields:
 
 ## Changelog
 
+### v1.0.22
+- Fix: bump ios-network-metrics-sdk to v1.0.17 — parallel chunk download loop, no delegate, no race
+
 ### v1.0.21
 - Fix: bump ios-network-metrics-sdk to v1.0.16 — download speed: `URLSessionDataDelegate.didReceive` for in-memory chunk accumulation (disk write flush delay was causing 0 Mbps)
 
