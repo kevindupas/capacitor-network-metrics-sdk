@@ -1,6 +1,7 @@
 {
   "name": "capacitor-network-metrics-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "type": "module",
   "description": "Capacitor plugin for network metrics measurement (Android + iOS)",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -26,9 +27,8 @@
     }
   },
   "scripts": {
-    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
+    "build": "npm run clean && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
-    "docgen": "docgen --api NetworkMetricsSdkPlugin --output-readme README.md",
     "verify": "npm run verify:ios && npm run verify:android",
     "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin -destination generic/platform=iOS build | xcpretty && cd ..",
     "verify:android": "cd android && ./gradlew clean build test && cd .."

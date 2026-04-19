@@ -2,14 +2,15 @@
   "compilerOptions": {
     "strict": true,
     "target": "ES2017",
-    "module": "ES2015",
+    "module": "ES2022",
     "lib": ["ES2017", "DOM"],
     "declaration": true,
     "sourceMap": true,
     "inlineSources": true,
     "rootDir": "src",
     "outDir": "dist/esm",
-    "moduleResolution": "node"
+    "moduleResolution": "bundler",
+    "skipLibCheck": true
   },
   "include": ["src"]
 }

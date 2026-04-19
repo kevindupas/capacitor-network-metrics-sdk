@@ -24,7 +24,7 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build
-        run: npx tsc && npx rollup -c rollup.config.js
+        run: npm run build
 
       - name: Publish to npm
         run: npm publish --access public
