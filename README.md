@@ -183,8 +183,11 @@ Key fields:
 
 ## Changelog
 
+### v1.0.13
+- Fix: bump ios-network-metrics-sdk to v1.0.8 — **root cause of `freed pointer` crash**: Swift runtime bug (swift#75501), `async let` heap corruption. Sequential `await` + `Task.detached`.
+
 ### v1.0.12
-- Fix: bump ios-network-metrics-sdk to v1.0.7 — **root cause SIGABRT fixed**: `DispatchQueue.main.sync` on main thread (Capacitor) = deadlock. Replaced with `MainActor.run`.
+- Fix: bump ios-network-metrics-sdk to v1.0.7 — `DispatchQueue.main.sync` deadlock on main thread replaced with `MainActor.run`.
 
 ### v1.0.11
 - Fix: bump ios-network-metrics-sdk to v1.0.6 (CI workflow fix + all UIDevice main thread fixes)
