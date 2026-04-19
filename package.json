@@ -1,6 +1,6 @@
 {
   "name": "capacitor-network-metrics-sdk",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "type": "module",
   "description": "Capacitor plugin for network metrics measurement (Android + iOS)",
   "main": "dist/plugin.cjs.js",
@@ -46,5 +46,11 @@
   "peerDependencies": {
     "@capacitor/core": "^8.0.0"
   },
-  "keywords": ["capacitor", "plugin", "network", "metrics", "sdk"]
+  "keywords": [
+    "capacitor",
+    "plugin",
+    "network",
+    "metrics",
+    "sdk"
+  ]
 }
