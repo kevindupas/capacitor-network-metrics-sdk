@@ -183,6 +183,10 @@ Key fields:
 
 ## Changelog
 
+### v1.0.8
+- Fix: bump ios-network-metrics-sdk to v1.0.1 (BGTaskScheduler crash fix)
+- iOS: `AppDelegate` must call `NetworkMetricsSdk.shared.registerForBackgroundTask()` in `didFinishLaunching` — see iOS Setup in README
+
 ### v1.0.7
 - Feat: add `speedDownloadDurationMs`, `speedUploadDurationMs`, `speedThreadCount` to `initialize()` API
 - Fix: pass all speed tuning params through to Android Builder and iOS Config
