@@ -183,6 +183,9 @@ Key fields:
 
 ## Changelog
 
+### v1.0.16
+- Fix: bump ios-network-metrics-sdk to v1.0.11 — download speed was ~0 Mbps (sequential threads). Now concurrent via `Task.detached`.
+
 ### v1.0.15
 - Fix: bump ios-network-metrics-sdk to v1.0.10 — remove all `withTaskGroup` in measurements + `os_log` debug at each step.
 
