@@ -16,9 +16,10 @@ public class NetworkMetricsSdkPlugin extends Plugin {
         String backendUrl = call.getString("backendUrl");
         if (backendUrl == null) { call.reject("backendUrl required"); return; }
 
+        int intervalMinutes = call.getInt("intervalMinutes", 15);
         NetworkMetricsConfig config = NetworkMetricsConfig.builder(backendUrl)
             .authHeader(call.getString("authHeader"))
-            .intervalMinutes(call.getInt("intervalMinutes", 15))
+            .intervalMs((long) intervalMinutes * 60_000L)
             .enableSpeed(Boolean.TRUE.equals(call.getBoolean("enableSpeed", true)))
             .enablePacketLoss(Boolean.TRUE.equals(call.getBoolean("enablePacketLoss", true)))
             .enableStreaming(Boolean.TRUE.equals(call.getBoolean("enableStreaming", true)))
@@ -31,7 +32,8 @@ public class NetworkMetricsSdkPlugin extends Plugin {
             .remoteConfigUrl(call.getString("remoteConfigUrl"))
             .build();
 
-        NetworkMetricsSdk.INSTANCE.initialize(getContext(), config);
+        NetworkMetricsSdk.INSTANCE.init(getContext(), config);
+        NetworkMetricsSdk.INSTANCE.start(getContext());
         call.resolve();
     }
 

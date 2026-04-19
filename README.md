@@ -183,6 +183,10 @@ Key fields:
 
 ## Changelog
 
+### v1.0.6
+- Fix: Android `intervalMinutes` → `intervalMs` conversion (Builder API mismatch)
+- Fix: Android `initialize()` → `init()` + `start()` (correct SDK API)
+
 ### v1.0.5
 - Fix: Android SDK dependency bumped to v1.0.13
 
