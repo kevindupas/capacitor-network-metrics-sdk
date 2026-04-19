@@ -183,6 +183,9 @@ Key fields:
 
 ## Changelog
 
+### v1.0.12
+- Fix: bump ios-network-metrics-sdk to v1.0.7 — **root cause SIGABRT fixed**: `DispatchQueue.main.sync` on main thread (Capacitor) = deadlock. Replaced with `MainActor.run`.
+
 ### v1.0.11
 - Fix: bump ios-network-metrics-sdk to v1.0.6 (CI workflow fix + all UIDevice main thread fixes)
 
