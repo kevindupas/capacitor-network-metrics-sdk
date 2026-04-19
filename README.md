@@ -183,8 +183,11 @@ Key fields:
 
 ## Changelog
 
+### v1.0.17
+- Fix: bump ios-network-metrics-sdk to v1.0.12 — download speed ~0 Mbps fixed: use `URLSession.bytes(from:)` streaming instead of waiting full 100MB download.
+
 ### v1.0.16
-- Fix: bump ios-network-metrics-sdk to v1.0.11 — download speed was ~0 Mbps (sequential threads). Now concurrent via `Task.detached`.
+- Fix: bump ios-network-metrics-sdk to v1.0.11 — download speed concurrent threads via `Task.detached`.
 
 ### v1.0.15
 - Fix: bump ios-network-metrics-sdk to v1.0.10 — remove all `withTaskGroup` in measurements + `os_log` debug at each step.
