@@ -183,8 +183,11 @@ Key fields:
 
 ## Changelog
 
+### v1.0.18
+- Fix: bump ios-network-metrics-sdk to v1.0.13 — minimum iOS target bumped to 15.0 (`URLSession.bytes` requires iOS 15+)
+
 ### v1.0.17
-- Fix: bump ios-network-metrics-sdk to v1.0.12 — download speed ~0 Mbps fixed: use `URLSession.bytes(from:)` streaming instead of waiting full 100MB download.
+- Fix: bump ios-network-metrics-sdk to v1.0.12 — download speed ~0 Mbps fixed: use `URLSession.bytes(from:)` streaming.
 
 ### v1.0.16
 - Fix: bump ios-network-metrics-sdk to v1.0.11 — download speed concurrent threads via `Task.detached`.
