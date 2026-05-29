@@ -1,6 +1,8 @@
 package com.kevindupas.networkmetricssdk;
 
 import com.getcapacitor.JSObject;
+import com.kevindupas.networkmetrics.model.GnssSatellite;
+import com.kevindupas.networkmetrics.model.GnssSnapshot;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -11,8 +13,11 @@ import com.kevindupas.networkmetrics.core.NetworkMetricsSdk;
 import com.kevindupas.networkmetrics.core.ProgressCallback;
 import com.kevindupas.networkmetrics.core.RadioSnapshot;
 import com.kevindupas.networkmetrics.model.DeviceResult;
+import com.kevindupas.networkmetrics.model.RadioPerSimResult;
 import com.kevindupas.networkmetrics.model.RadioResult;
 import com.kevindupas.networkmetrics.model.SpeedResult;
+
+import org.json.JSONArray;
 
 @CapacitorPlugin(name = "NetworkMetricsSdk")
 public class NetworkMetricsSdkPlugin extends Plugin {
@@ -80,23 +85,19 @@ public class NetworkMetricsSdkPlugin extends Plugin {
 
         RadioResult radio = snapshot.getRadio();
         if (radio != null) {
-            JSObject r = new JSObject();
-            r.put("rsrp", radio.getRsrp());
-            r.put("rsrq", radio.getRsrq());
-            r.put("sinr", radio.getSinr());
-            r.put("rssi", radio.getRssi());
-            r.put("cqi", radio.getCqi());
-            r.put("ci", radio.getCi());
-            r.put("pci", radio.getPci());
-            r.put("tac", radio.getTac());
-            r.put("earfcn", radio.getEarfcn());
-            r.put("isVoLteAvailable", radio.isVoLteAvailable());
-            r.put("isNrAvailable", radio.isNrAvailable());
-            r.put("networkGeneration", radio.getNetworkGeneration());
-            r.put("signalStrengthLevel", radio.getSignalStrengthLevel());
-            r.put("technology", radio.getTechnology());
-            ret.put("radio", r);
+            ret.put("radio", radioToJSObject(radio));
         }
+
+        JSONArray perSimArr = new JSONArray();
+        for (RadioPerSimResult ps : snapshot.getRadioPerSim()) {
+            JSObject s = new JSObject();
+            s.put("subscriptionId", ps.getSubscriptionId());
+            s.put("slotIndex", ps.getSlotIndex());
+            s.put("carrierName", ps.getCarrierName());
+            s.put("radio", ps.getRadio() != null ? radioToJSObject(ps.getRadio()) : null);
+            perSimArr.put(s);
+        }
+        ret.put("radioPerSim", perSimArr);
 
         DeviceResult device = snapshot.getDevice();
         if (device != null) {
@@ -109,6 +110,48 @@ public class NetworkMetricsSdkPlugin extends Plugin {
             ret.put("device", d);
         }
 
+        call.resolve(ret);
+    }
+
+    private static JSObject radioToJSObject(RadioResult radio) {
+        JSObject r = new JSObject();
+        r.put("rsrp", radio.getRsrp());
+        r.put("rsrq", radio.getRsrq());
+        r.put("sinr", radio.getSinr());
+        r.put("rssi", radio.getRssi());
+        r.put("cqi", radio.getCqi());
+        r.put("ci", radio.getCi());
+        r.put("pci", radio.getPci());
+        r.put("tac", radio.getTac());
+        r.put("earfcn", radio.getEarfcn());
+        r.put("timingAdvance", radio.getTimingAdvance());
+        r.put("isVoLteAvailable", radio.isVoLteAvailable());
+        r.put("isNrAvailable", radio.isNrAvailable());
+        r.put("networkGeneration", radio.getNetworkGeneration());
+        r.put("signalStrengthLevel", radio.getSignalStrengthLevel());
+        r.put("technology", radio.getTechnology());
+        return r;
+    }
+
+    @PluginMethod
+    public void getGnssSatellites(PluginCall call) {
+        GnssSnapshot snap = NetworkMetricsSdk.INSTANCE.getGnssSatellites(getContext());
+        JSObject ret = new JSObject();
+        JSONArray arr = new JSONArray();
+        for (GnssSatellite s : snap.getSatellites()) {
+            JSObject o = new JSObject();
+            o.put("svid", s.getSvid());
+            o.put("constellation", s.getConstellation());
+            o.put("azimuth", s.getAzimuth());
+            o.put("elevation", s.getElevation());
+            o.put("cn0DbHz", s.getCn0DbHz());
+            o.put("usedInFix", s.getUsedInFix());
+            arr.put(o);
+        }
+        ret.put("satellites", arr);
+        ret.put("inView", snap.getInView());
+        ret.put("usedInFix", snap.getUsedInFix());
+        ret.put("avgCn0DbHz", snap.getAvgCn0DbHz());
         call.resolve(ret);
     }
 

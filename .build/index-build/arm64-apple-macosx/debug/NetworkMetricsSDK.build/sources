@@ -1,0 +1,17 @@
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Core/MeasurementProgress.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Core/NetworkMetricsConfig.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Core/NetworkMetricsSdk.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Core/RemoteConfigFetcher.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/DeviceMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/DnsMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/GeoMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/NetworkContextMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/PacketLossMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/RadioMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/SocialLatencyMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/SpeedMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/StreamingMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Measurement/WebBrowsingMeasurement.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Model/NetworkMetricsRecord.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Util/MosCalculator.swift
+/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSDK/Util/QualityScoresCalculator.swift

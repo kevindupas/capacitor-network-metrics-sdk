@@ -137,6 +137,29 @@ Returns the last stored measurement.
 // timestamp = ms since epoch, 0 if no result yet
 ```
 
+### `getGnssSatellites()` *(Android only)*
+
+Passive snapshot of GNSS satellites currently visible (GPS, GLONASS, Galileo, BeiDou, QZSS, SBAS, IRNSS). Registers a `GnssStatus.Callback` on first call and reuses it.
+
+```typescript
+interface GnssSatellite {
+  svid: number;
+  constellation: 'GPS' | 'GLO' | 'GAL' | 'BDS' | 'QZS' | 'SBAS' | 'IRN' | 'OTH';
+  azimuth: number;     // degrees, 0 = north, clockwise
+  elevation: number;   // degrees above horizon
+  cn0DbHz: number;     // carrier-to-noise density
+  usedInFix: boolean;
+}
+interface GnssSatellitesSnapshot {
+  satellites: GnssSatellite[];
+  inView: number;
+  usedInFix: number;
+  avgCn0DbHz: number;
+}
+```
+
+Requires `ACCESS_FINE_LOCATION` at runtime and location services enabled. Returns empty when permission missing.
+
 ## Payload reference
 
 Full payload documented in [android-network-metrics-sdk/PAYLOAD_REFERENCE.md](https://github.com/kevindupas/android-network-metrics-sdk/blob/main/PAYLOAD_REFERENCE.md).
@@ -182,6 +205,11 @@ Key fields:
 | MOS G.107 + QoS scores | ✅ | ✅ |
 
 ## Changelog
+
+### v1.0.40
+- Feat: LTE Timing Advance — `radio.timingAdvance` (raw units, `null` when unavailable; distance ≈ TA × 78.07 m, conversion left to consumers)
+- Feat: dual-SIM — new `radioPerSim[]` array on `getRadioSnapshot()` and on the cycle payload, one entry per active subscription with `subscriptionId`, `slotIndex`, `carrierName`, and full radio block. Legacy top-level `radio` (default data SIM) is preserved unchanged
+- Feat: Android SDK v1.0.20 — `RadioMeasurement.measurePerSim()`, TA read on `CellSignalStrengthLte`
 
 ### v1.0.28
 - Perf: Android SDK v1.0.17 — Cloudflare/Ookla-grade methodology. HTTP/2 + ConnectionPool keep-alive (drops ping handshake overhead on cellular), 2 s TCP slow-start warmup excluded from throughput, outlier-trimmed latency + stddev jitter, 25 MB download / 1 MB upload chunks. **Loaded latency now probed concurrently during the download stream** (true bufferbloat measurement) instead of on an idle post-transfer connection

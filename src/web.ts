@@ -14,4 +14,7 @@ export class NetworkMetricsSdkWeb extends WebPlugin implements NetworkMetricsSdk
   async getLastResult(): Promise<{ json: string | null; timestamp: number }> {
     throw this.unimplemented('Not available on web.');
   }
+  async getGnssSatellites(): ReturnType<NetworkMetricsSdkPlugin['getGnssSatellites']> {
+    throw this.unimplemented('Not available on web.');
+  }
 }

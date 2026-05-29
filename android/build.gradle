@@ -15,11 +15,12 @@ android {
 repositories {
     google()
     mavenCentral()
+    mavenLocal()
     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':capacitor-android')
-    implementation 'com.github.kevindupas:android-network-metrics-sdk:v1.0.21'
+    implementation 'com.github.kevindupas:android-network-metrics-sdk:v1.0.24'
 }

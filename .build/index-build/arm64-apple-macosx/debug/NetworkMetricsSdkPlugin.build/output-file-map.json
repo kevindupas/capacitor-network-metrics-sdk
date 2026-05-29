@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/.build/index-build/arm64-apple-macosx/debug/NetworkMetricsSdkPlugin.build/primary.swiftdeps"
+  },
+  "/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/ios/Sources/NetworkMetricsSdkPlugin/NetworkMetricsSdkPlugin.swift": {
+    "dependencies": "/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/.build/index-build/arm64-apple-macosx/debug/NetworkMetricsSdkPlugin.build/NetworkMetricsSdkPlugin.d",
+    "object": "/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/.build/index-build/arm64-apple-macosx/debug/NetworkMetricsSdkPlugin.build/NetworkMetricsSdkPlugin.swift.o",
+    "swiftmodule": "/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/.build/index-build/arm64-apple-macosx/debug/NetworkMetricsSdkPlugin.build/NetworkMetricsSdkPlugin~partial.swiftmodule",
+    "swift-dependencies": "/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/.build/index-build/arm64-apple-macosx/debug/NetworkMetricsSdkPlugin.build/NetworkMetricsSdkPlugin.swiftdeps",
+    "diagnostics": "/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/.build/index-build/arm64-apple-macosx/debug/NetworkMetricsSdkPlugin.build/NetworkMetricsSdkPlugin.dia"
+  }
+}

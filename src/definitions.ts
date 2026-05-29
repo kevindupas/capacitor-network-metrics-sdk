@@ -29,6 +29,48 @@ export interface MeasurementProgressEvent {
   serverLocation?: string;
 }
 
+export interface RadioInfo {
+  rsrp: number | null;
+  rsrq: number | null;
+  sinr: number | null;
+  rssi: number | null;
+  cqi: number | null;
+  ci: number | null;
+  pci: number | null;
+  tac: number | null;
+  earfcn: number | null;
+  /** LTE Timing Advance, raw units. Distance ≈ TA × 78.07 m (consumer-side). */
+  timingAdvance: number | null;
+  isVoLteAvailable: boolean | null;
+  isNrAvailable: boolean | null;
+  networkGeneration: string | null;
+  signalStrengthLevel: string | null;
+  technology: string | null;
+}
+
+export interface GnssSatellite {
+  svid: number;
+  constellation: 'GPS' | 'GLO' | 'GAL' | 'BDS' | 'QZS' | 'SBAS' | 'IRN' | 'OTH';
+  azimuth: number;       // degrees from north (clockwise)
+  elevation: number;     // degrees above horizon
+  cn0DbHz: number;       // signal C/N0
+  usedInFix: boolean;
+}
+
+export interface GnssSatellitesSnapshot {
+  satellites: GnssSatellite[];
+  inView: number;
+  usedInFix: number;
+  avgCn0DbHz: number;
+}
+
+export interface RadioPerSimInfo {
+  subscriptionId: number;
+  slotIndex: number;
+  carrierName: string | null;
+  radio: RadioInfo | null;
+}
+
 export interface NetworkMetricsSdkPlugin {
   initialize(options: {
     backendUrl: string;
@@ -62,22 +104,8 @@ export interface NetworkMetricsSdkPlugin {
    * Use at app launch to populate operator/signal display immediately.
    */
   getRadioSnapshot(): Promise<{
-    radio: {
-      rsrp: number | null;
-      rsrq: number | null;
-      sinr: number | null;
-      rssi: number | null;
-      cqi: number | null;
-      ci: number | null;
-      pci: number | null;
-      tac: number | null;
-      earfcn: number | null;
-      isVoLteAvailable: boolean | null;
-      isNrAvailable: boolean | null;
-      networkGeneration: string | null;
-      signalStrengthLevel: string | null;
-      technology: string | null;
-    } | null;
+    radio: RadioInfo | null;
+    radioPerSim: RadioPerSimInfo[];
     device: {
       simOperatorName: string | null;
       mcc: string | null;
@@ -88,6 +116,12 @@ export interface NetworkMetricsSdkPlugin {
   }>;
 
   getLastResult(): Promise<{ json: string | null; timestamp: number }>;
+
+  /**
+   * Snapshot of GNSS satellites currently visible. Android only.
+   * Requires ACCESS_FINE_LOCATION permission and that location services are on.
+   */
+  getGnssSatellites(): Promise<GnssSatellitesSnapshot>;
 
   addListener(
     eventName: 'measurementProgress',
