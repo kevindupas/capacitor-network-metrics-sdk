@@ -1,3 +1,0 @@
-module NetworkMetricsSDK {
-    header "/Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/.build/index-build/arm64-apple-macosx/debug/NetworkMetricsSDK.build/include/NetworkMetricsSDK-Swift.h"
-}

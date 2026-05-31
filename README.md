@@ -160,6 +160,37 @@ interface GnssSatellitesSnapshot {
 
 Requires `ACCESS_FINE_LOCATION` at runtime and location services enabled. Returns empty when permission missing.
 
+### `getNeighborCells()` *(Android only)*
+
+Snapshot of all visible cells (registered + neighbors) per `TelephonyManager.getAllCellInfo()`.
+
+```typescript
+interface NeighborCell {
+  technology: 'LTE' | 'NR' | 'WCDMA' | 'GSM';
+  isRegistered: boolean;
+  mcc: string | null;
+  mnc: string | null;
+  tac: number | null;       // LTE/NR: tac; WCDMA/GSM: lac
+  ci: number | null;        // LTE/WCDMA/GSM cell id
+  nci: number | null;       // NR 5G cell id (64-bit)
+  pci: number | null;       // physical cell id (LTE/NR)
+  psc: number | null;       // WCDMA primary scrambling code
+  arfcn: number | null;     // EARFCN/NRARFCN/UARFCN/GSM-ARFCN
+  rsrp: number | null;
+  rsrq: number | null;
+  sinr: number | null;
+  asuLevel: number | null;
+  dbm: number | null;
+  timestampNanos: number;
+}
+interface NeighborCellsSnapshot {
+  cells: NeighborCell[];
+  count: number;
+}
+```
+
+Requires `ACCESS_FINE_LOCATION` + `READ_PHONE_STATE`. Returns `{ cells: [], count: 0 }` if missing.
+
 ## Payload reference
 
 Full payload documented in [android-network-metrics-sdk/PAYLOAD_REFERENCE.md](https://github.com/kevindupas/android-network-metrics-sdk/blob/main/PAYLOAD_REFERENCE.md).

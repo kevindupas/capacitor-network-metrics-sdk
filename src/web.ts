@@ -17,4 +17,7 @@ export class NetworkMetricsSdkWeb extends WebPlugin implements NetworkMetricsSdk
   async getGnssSatellites(): ReturnType<NetworkMetricsSdkPlugin['getGnssSatellites']> {
     throw this.unimplemented('Not available on web.');
   }
+  async getNeighborCells(): ReturnType<NetworkMetricsSdkPlugin['getNeighborCells']> {
+    throw this.unimplemented('Not available on web.');
+  }
 }

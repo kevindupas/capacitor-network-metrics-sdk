@@ -3,6 +3,7 @@ package com.kevindupas.networkmetricssdk;
 import com.getcapacitor.JSObject;
 import com.kevindupas.networkmetrics.model.GnssSatellite;
 import com.kevindupas.networkmetrics.model.GnssSnapshot;
+import com.kevindupas.networkmetrics.model.NeighborCell;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -18,6 +19,8 @@ import com.kevindupas.networkmetrics.model.RadioResult;
 import com.kevindupas.networkmetrics.model.SpeedResult;
 
 import org.json.JSONArray;
+
+import java.util.List;
 
 @CapacitorPlugin(name = "NetworkMetricsSdk")
 public class NetworkMetricsSdkPlugin extends Plugin {
@@ -152,6 +155,36 @@ public class NetworkMetricsSdkPlugin extends Plugin {
         ret.put("inView", snap.getInView());
         ret.put("usedInFix", snap.getUsedInFix());
         ret.put("avgCn0DbHz", snap.getAvgCn0DbHz());
+        call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void getNeighborCells(PluginCall call) {
+        List<NeighborCell> cells = NetworkMetricsSdk.INSTANCE.getNeighborCells(getContext());
+        JSObject ret = new JSObject();
+        JSONArray arr = new JSONArray();
+        for (NeighborCell c : cells) {
+            JSObject o = new JSObject();
+            o.put("technology",     c.getTechnology());
+            o.put("isRegistered",   c.isRegistered());
+            o.put("mcc",            c.getMcc());
+            o.put("mnc",            c.getMnc());
+            o.put("tac",            c.getTac());
+            o.put("ci",             c.getCi());
+            o.put("nci",            c.getNci());
+            o.put("pci",            c.getPci());
+            o.put("psc",            c.getPsc());
+            o.put("arfcn",          c.getArfcn());
+            o.put("rsrp",           c.getRsrp());
+            o.put("rsrq",           c.getRsrq());
+            o.put("sinr",           c.getSinr());
+            o.put("asuLevel",       c.getAsuLevel());
+            o.put("dbm",            c.getDbm());
+            o.put("timestampNanos", c.getTimestampNanos());
+            arr.put(o);
+        }
+        ret.put("cells", arr);
+        ret.put("count", cells.size());
         call.resolve(ret);
     }
 

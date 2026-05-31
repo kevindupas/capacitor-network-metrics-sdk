@@ -64,6 +64,30 @@ export interface GnssSatellitesSnapshot {
   avgCn0DbHz: number;
 }
 
+export interface NeighborCell {
+  technology: 'LTE' | 'NR' | 'WCDMA' | 'GSM';
+  isRegistered: boolean;
+  mcc: string | null;
+  mnc: string | null;
+  tac: number | null;
+  ci: number | null;
+  nci: number | null;
+  pci: number | null;
+  psc: number | null;
+  arfcn: number | null;
+  rsrp: number | null;
+  rsrq: number | null;
+  sinr: number | null;
+  asuLevel: number | null;
+  dbm: number | null;
+  timestampNanos: number;
+}
+
+export interface NeighborCellsSnapshot {
+  cells: NeighborCell[];
+  count: number;
+}
+
 export interface RadioPerSimInfo {
   subscriptionId: number;
   slotIndex: number;
@@ -122,6 +146,13 @@ export interface NetworkMetricsSdkPlugin {
    * Requires ACCESS_FINE_LOCATION permission and that location services are on.
    */
   getGnssSatellites(): Promise<GnssSatellitesSnapshot>;
+
+  /**
+   * Snapshot of all visible cells (serving + neighbors). Android only.
+   * Requires ACCESS_FINE_LOCATION + READ_PHONE_STATE; returns
+   * `{ cells: [], count: 0 }` if either is missing.
+   */
+  getNeighborCells(): Promise<NeighborCellsSnapshot>;
 
   addListener(
     eventName: 'measurementProgress',

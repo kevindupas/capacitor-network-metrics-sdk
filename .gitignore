@@ -1,6 +1,7 @@
 node_modules/
 dist/
 ios/.build/
+.build/
 ios/Package.resolved
 ios/Pods/
 .DS_Store
