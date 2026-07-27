@@ -22,5 +22,5 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':capacitor-android')
-    implementation 'com.github.kevindupas:android-network-metrics-sdk:v1.0.25'
+    implementation 'com.github.kevindupas:android-network-metrics-sdk:v1.0.30'
 }

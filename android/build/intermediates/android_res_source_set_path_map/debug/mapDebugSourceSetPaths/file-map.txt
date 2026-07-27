@@ -1,0 +1,9 @@
+com.kevindupas.networkmetricssdk.capacitor-network-metrics-sdk-pngs-0 /Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/android/build/generated/res/pngs/debug
+com.kevindupas.networkmetricssdk.capacitor-network-metrics-sdk-resValues-1 /Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/android/build/generated/res/resValues/debug
+com.kevindupas.networkmetricssdk.capacitor-network-metrics-sdk-updated_navigation_xml-2 /Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/android/build/generated/updated_navigation_xml/debug
+com.kevindupas.networkmetricssdk.capacitor-network-metrics-sdk-mergeDebugResources-3 /Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/android/build/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.kevindupas.networkmetricssdk.capacitor-network-metrics-sdk-mergeDebugResources-4 /Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/android/build/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.kevindupas.networkmetricssdk.capacitor-network-metrics-sdk-debug-5 /Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/android/build/intermediates/merged_res/debug/mergeDebugResources
+com.kevindupas.networkmetricssdk.capacitor-network-metrics-sdk-debug-6 /Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/android/build/intermediates/packaged_res/debug/packageDebugResources
+com.kevindupas.networkmetricssdk.capacitor-network-metrics-sdk-debug-7 /Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/android/src/debug/res
+com.kevindupas.networkmetricssdk.capacitor-network-metrics-sdk-main-8 /Users/kevindupas/PNI/sdk_android_capacitor_telecoms/capacitor-network-metrics-sdk/android/src/main/res

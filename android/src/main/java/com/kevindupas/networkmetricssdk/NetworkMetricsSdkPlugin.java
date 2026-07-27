@@ -48,6 +48,7 @@ public class NetworkMetricsSdkPlugin extends Plugin {
             .speedDownloadDurationMs(call.getLong("speedDownloadDurationMs", 8000L))
             .speedUploadDurationMs(call.getLong("speedUploadDurationMs", 6000L))
             .speedThreadCount(call.getInt("speedThreadCount", 3))
+            .speedTestBaseUrl(call.getString("speedTestBaseUrl", "https://speed.cloudflare.com"))
             .build();
 
         NetworkMetricsSdk.INSTANCE.init(getContext(), config);
@@ -97,6 +98,9 @@ public class NetworkMetricsSdkPlugin extends Plugin {
             s.put("subscriptionId", ps.getSubscriptionId());
             s.put("slotIndex", ps.getSlotIndex());
             s.put("carrierName", ps.getCarrierName());
+            s.put("mcc", ps.getMcc());
+            s.put("mnc", ps.getMnc());
+            s.put("isDefaultData", ps.isDefaultData());
             s.put("radio", ps.getRadio() != null ? radioToJSObject(ps.getRadio()) : null);
             perSimArr.put(s);
         }

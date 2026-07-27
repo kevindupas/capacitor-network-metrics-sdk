@@ -92,6 +92,14 @@ export interface RadioPerSimInfo {
   subscriptionId: number;
   slotIndex: number;
   carrierName: string | null;
+  /** MCC/MNC of the subscription's home network, not of the cell it is camped on. */
+  mcc: string | null;
+  mnc: string | null;
+  /**
+   * The subscription currently carrying mobile data. Throughput, latency and MOS are
+   * measured over this SIM, so treat it as the reference reading when several are active.
+   */
+  isDefaultData: boolean;
   radio: RadioInfo | null;
 }
 
