@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'CapacitorNetworkMetricsSdk'
-  s.version          = '1.0.39'
+  s.version          = '1.0.43'
   s.summary          = 'Capacitor plugin for network metrics measurement'
   s.homepage         = 'https://github.com/kevindupas/capacitor-network-metrics-sdk'
   s.license          = { :type => 'MIT' }

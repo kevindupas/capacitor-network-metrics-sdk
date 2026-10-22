@@ -1,6 +1,9 @@
 import Foundation
 import Capacitor
+// SPM builds the SDK as its own module; the CocoaPods spec compiles both folders into one.
+#if canImport(NetworkMetricsSDK)
 import NetworkMetricsSDK
+#endif
 
 @objc(NetworkMetricsSdkPlugin)
 public class NetworkMetricsSdkPlugin: CAPPlugin, CAPBridgedPlugin {
