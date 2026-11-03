@@ -93,7 +93,8 @@ internal struct SpeedMeasurement {
                 var bytes: Int64 = 0
                 while Date() < deadline {
                     let remaining = deadline.timeIntervalSinceNow
-                    guard remaining > 0.5 else { break }
+                    // A fixed 0.5 s margin would end a 500 ms test before its first chunk.
+                    guard remaining > min(0.5, durationSec * 0.1) else { break }
                     let (b, _) = await downloadChunk(url: url, timeoutSec: min(remaining + 2, durationSec + 5))
                     bytes += b
                 }

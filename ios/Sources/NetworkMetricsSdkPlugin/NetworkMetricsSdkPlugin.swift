@@ -46,7 +46,7 @@ public class NetworkMetricsSdkPlugin: CAPPlugin, CAPBridgedPlugin {
             speedThreadCount:       call.getInt("speedThreadCount")         ?? 3,
             udpHost:                call.getString("udpHost")               ?? "",
             udpPort:                call.getInt("udpPort")                  ?? 5005,
-            tcpPort:                call.getInt("tcpPort")                  ?? 5006,
+            tcpPort:                call.getInt("tcpPort")                  ?? 8230,
             remoteConfigUrl:        call.getString("remoteConfigUrl"),
             streamingUrl:           call.getString("streamingUrl")
         )
@@ -82,6 +82,9 @@ public class NetworkMetricsSdkPlugin: CAPPlugin, CAPBridgedPlugin {
                 "signalStrengthLevel": r.signalStrengthLevel,
                 "technology": r.technology
             ]
+
+            // iOS exposes no per-SIM radio data. The key stays, as the definitions promise it.
+            ret["radioPerSim"] = [[String: Any]]()
 
             let d = snapshot.device
             ret["device"] = [

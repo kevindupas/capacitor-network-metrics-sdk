@@ -86,7 +86,7 @@ await NetworkMetricsSdk.initialize({
   enableWebBrowsing:   true,
   udpHost:             'your-udp-server.com',
   udpPort:             5005,
-  tcpPort:             5006,
+  tcpPort:             8230,
   remoteConfigUrl:     'https://your-backend.com/api/config/targets', // optional
 });
 
@@ -106,13 +106,13 @@ if (json) {
 
 ### `initialize(options)`
 
-Starts the SDK and schedules periodic background measurements.
+Configures the SDK. Periodic background measurements, each a full speed test, are only scheduled when `intervalMinutes` is passed; otherwise any periodic work scheduled earlier is cancelled.
 
 | Option | Type | Default | Description |
 |---|---|---|---|
 | `backendUrl` | `string` | required | POST endpoint for measurements |
 | `authHeader` | `string` | — | `Authorization` header |
-| `intervalMinutes` | `number` | `15` | Background interval |
+| `intervalMinutes` | `number` | none | Background interval, minimum 15. No periodic work without it |
 | `enableSpeed` | `boolean` | `true` | Speed test |
 | `enablePacketLoss` | `boolean` | `true` | Packet loss |
 | `enableStreaming` | `boolean` | `true` | HLS simulation |
@@ -121,7 +121,7 @@ Starts the SDK and schedules periodic background measurements.
 | `enableWebBrowsing` | `boolean` | `true` | Web phase timing |
 | `udpHost` | `string` | `""` | UDP echo server |
 | `udpPort` | `number` | `5005` | UDP port |
-| `tcpPort` | `number` | `5006` | TCP fallback port |
+| `tcpPort` | `number` | `8230` | TCP fallback port |
 | `remoteConfigUrl` | `string` | — | Remote web targets URL (1h cache) |
 
 ### `measureNow()`
@@ -236,6 +236,15 @@ Key fields:
 | MOS G.107 + QoS scores | ✅ | ✅ |
 
 ## Changelog
+
+### v1.0.44
+- Feat: Android SDK v1.0.32
+- Fix: periodic work only with an explicit `intervalMinutes`, new `stop()` and `stopGnssSatellites()`
+- Fix: `speedDownloadDurationMs` and `speedUploadDurationMs` are honoured (they were ignored on Android)
+- Fix: `measureNow` rejects before `initialize`, resolves `{ testId }`, and new terminal `FAILED` event. Events carry `testId`. New `POST` event and `posted` on `getLastResult`
+- Fix: `getRadioSnapshot` forwards `lac`, `bandwidth`, `psc`, `nrMode`, `isRoaming`, `isVoNrAvailable`, plus new `rscp`, `cellAgeMs`, `nrRsrp`, `nrRsrq`, `nrSinr`. Absent values are `null`, not missing keys
+- Fix: `tcpPort` defaults to 8230 like the SDK. `speedTestBaseUrl` in the definitions
+- Fix (iOS): 500 ms speed test no longer ends before its first chunk, `radioPerSim` returned
 
 ### v1.0.40
 - Feat: LTE Timing Advance — `radio.timingAdvance` (raw units, `null` when unavailable; distance ≈ TA × 78.07 m, conversion left to consumers)

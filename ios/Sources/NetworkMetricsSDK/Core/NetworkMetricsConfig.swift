@@ -52,7 +52,7 @@ public struct NetworkMetricsConfig {
         speedThreadCount: Int = 3,
         udpHost: String = "",
         udpPort: Int = 5005,
-        tcpPort: Int = 5006,
+        tcpPort: Int = 8230,
         webTargets: [WebTarget] = NetworkMetricsConfig.defaultWebTargets,
         remoteConfigUrl: String? = nil,
         streamingUrl: String? = nil
