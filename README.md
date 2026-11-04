@@ -124,17 +124,32 @@ Configures the SDK. Periodic background measurements, each a full speed test, ar
 | `tcpPort` | `number` | `8230` | TCP fallback port |
 | `remoteConfigUrl` | `string` | — | Remote web targets URL (1h cache) |
 
-### `measureNow()`
+### `stop()` *(Android only)*
 
-Triggers an immediate one-shot measurement cycle. Returns as soon as the measurement is queued (non-blocking).
+Cancels periodic work and a one-shot in progress, whose caller gets `FAILED` with `error: 'stopped'`. Releases the GNSS and 5G listeners.
+
+### `measureNow(options?)`
+
+Triggers an immediate one-shot measurement cycle. Resolves `{ testId }` as soon as the measurement is queued (non-blocking).
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `skipSpeed` | `boolean` | `false` | Skip the speed phase |
+
+Wait for `COMPLETE` or `FAILED` on `measurementProgress`, filtering on `testId`. A later call replaces the run, which then gets `FAILED` (`stopped`). If the app's process dies mid-run no terminal event comes, so keep a timeout of your own.
 
 ### `getLastResult()`
 
 Returns the last stored measurement.
 
 ```typescript
-{ json: string | null, timestamp: number }
-// timestamp = ms since epoch, 0 if no result yet
+{
+  json: string | null,
+  testId: string | null,              // the run it belongs to: periodic runs write here too
+  timestamp: number,                  // ms since epoch, 0 if no result yet
+  posted: boolean | null,             // reached the backend. Null: unknown, or no backend
+  packetLossMeasured: boolean | null, // false: MOS and scores leave loss out
+}
 ```
 
 ### `getGnssSatellites()` *(Android only)*
@@ -182,6 +197,7 @@ interface NeighborCell {
   asuLevel: number | null;
   dbm: number | null;
   timestampNanos: number;
+  cellAgeMs: number | null; // age of this reading when sampled
 }
 interface NeighborCellsSnapshot {
   cells: NeighborCell[];
@@ -203,14 +219,16 @@ Key fields:
   "deviceId":  "platform-device-id",
   "timestamp": "2026-04-19T10:00:00Z",
   "speed":     { "downloadMbps": 12.4, "uploadMbps": 5.1, "latencyMs": 28, "jitterMs": 3.2 },
-  "udpPacketLoss": { "lossPercent": 1.0, "method": "UDP" },
+  "udpPacketLoss": { "lossPercent": 1.0, "method": "udp" },
   "radio":     { "rsrp": -85, "networkGeneration": "4G", "nrMode": null },
   "network":   { "isp": "Safaricom", "cfColo": "NBO", "isLocallyServed": true },
   "device":    { "model": "Pixel 8", "thermalStatus": "NONE" },
-  "scores":    { "streaming": { "score": 4, "label": "Good" } },
+  "scores":    { "streaming": { "score": 85, "label": "Excellent" } },
   "mos":       4.2
 }
 ```
+
+`scores` run from 0 to 100, labelled `Poor` (under 50), `Core` (50 to 79) or `Excellent` (80 and up). `method` is `"udp"`, or `"tcp"` for the fallback, which is reachability and not a loss measurement.
 
 ## Platform feature matrix
 
@@ -232,13 +250,21 @@ Key fields:
 | Neighbouring cells | ✅ | ❌ private API |
 | 5G NSA/SA | ✅ | ❌ no public API |
 | VoLTE / VoNR | ✅ | ❌ no public API |
-| Background guaranteed | ✅ WorkManager | ⚠️ BGAppRefresh |
+| Background runs | ⚠️ WorkManager, best effort | ⚠️ BGAppRefresh |
 | MOS G.107 + QoS scores | ✅ | ✅ |
+
+## Periodic mode limits
+
+Periodic runs are best effort. On Android the SDK must be initialised from `Application.onCreate` or a run started by the system after process death finds no config and ends. Radio and position in the background need `ACCESS_BACKGROUND_LOCATION`. A failed POST is not retried: that record is lost when the next run overwrites it.
 
 ## Changelog
 
 ### v1.0.44
 - Feat: Android SDK v1.0.32
+- Feat: `nrLegObserved` on radio, `testId` on `getLastResult`
+- Fix: `isVoLteAvailable` and `isVoNrAvailable` are `null` when not readable, never a guessed `false`
+- Fix: a replaced `measureNow` gets a terminal `FAILED` (`stopped`)
+- `stop()` is marked Android only
 - Fix: periodic work only with an explicit `intervalMinutes`, new `stop()` and `stopGnssSatellites()`
 - Fix: `speedDownloadDurationMs` and `speedUploadDurationMs` are honoured (they were ignored on Android)
 - Fix: `measureNow` rejects before `initialize`, resolves `{ testId }`, and new terminal `FAILED` event. Events carry `testId`. New `POST` event and `posted` on `getLastResult`

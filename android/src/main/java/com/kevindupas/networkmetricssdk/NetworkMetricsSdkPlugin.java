@@ -48,6 +48,17 @@ public class NetworkMetricsSdkPlugin extends Plugin {
         }
     }
 
+    /** Null when there is no readable result. */
+    private static String testIdIn(String json) {
+        if (json == null) return null;
+        try {
+            JSONObject record = new JSONObject(json);
+            return record.isNull("testId") ? null : record.getString("testId");
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     /** JSONObject.put(name, null) removes the key, and the definitions promise null. */
     private static void putN(JSObject target, String name, Object value) {
         target.put(name, value == null ? JSONObject.NULL : value);
@@ -212,9 +223,10 @@ public class NetworkMetricsSdkPlugin extends Plugin {
         putN(r, "psc", radio.getPsc());
         putN(r, "timingAdvance", radio.getTimingAdvance());
         putN(r, "cellAgeMs", radio.getCellAgeMs());
-        r.put("isVoLteAvailable", radio.isVoLteAvailable());
-        r.put("isVoNrAvailable", radio.isVoNrAvailable());
+        putN(r, "isVoLteAvailable", radio.isVoLteAvailable());
+        putN(r, "isVoNrAvailable", radio.isVoNrAvailable());
         r.put("isNrAvailable", radio.isNrAvailable());
+        r.put("nrLegObserved", radio.getNrLegObserved());
         r.put("isRoaming", radio.isRoaming());
         putN(r, "nrMode", radio.getNrMode());
         putN(r, "nrRsrp", radio.getNrRsrp());
@@ -307,6 +319,7 @@ public class NetworkMetricsSdkPlugin extends Plugin {
         long ts     = NetworkMetricsSdk.INSTANCE.getLastResultTimestamp(getContext());
         JSObject ret = new JSObject();
         putN(ret, "json", json);
+        putN(ret, "testId", testIdIn(json));
         putN(ret, "packetLossMeasured", packetLossMeasuredIn(json));
         ret.put("timestamp", ts);
         putN(ret, "posted", NetworkMetricsSdk.INSTANCE.getLastResultPosted(getContext()));

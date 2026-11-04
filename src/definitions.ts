@@ -19,7 +19,10 @@ export type MeasurementPhase =
   /** Terminal: nothing follows for this testId. `error` says why. */
   | 'FAILED';
 
-/** `stopped`: by `stop()` or by the system. A run stopped by the system is not run again. */
+/**
+ * `stopped`: by `stop()`, by the system, or replaced by a newer `measureNow`. A run stopped by the
+ * system is not run again.
+ */
 export type MeasurementFailureCode = 'no_network' | 'config_missing' | 'stopped' | 'error';
 
 export interface MeasurementProgressEvent {
@@ -77,11 +80,25 @@ export interface RadioInfo {
   timingAdvance: number | null;
   /** Age of the cell reading when sampled. */
   cellAgeMs: number | null;
+  /** VoLTE enabled. Null when not readable: it comes from a hidden Android API. Never a guess. */
   isVoLteAvailable: boolean | null;
+  /** VoNR enabled. Null when not readable, and below Android 12. Never a guess. */
   isVoNrAvailable: boolean | null;
+  /**
+   * True when `nrMode` is set or the serving cell is NR. On LTE that follows the phone's 5G icon,
+   * which can show for a cell merely capable of EN-DC: see `nrLegObserved`.
+   */
   isNrAvailable: boolean | null;
+  /**
+   * An NR cell or NR signal was actually seen for this SIM. `nrMode` 'NSA' without it means the
+   * phone shows 5G but no NR leg was observed. Android only.
+   */
+  nrLegObserved: boolean | null;
   isRoaming: boolean | null;
-  /** Null when not on 5G or unknown. In NSA, rsrp/rsrq/sinr are the LTE anchor's. */
+  /**
+   * Null when not on 5G or unknown. 'NSA' matches the phone's own 5G icon, see `nrLegObserved`.
+   * In NSA, rsrp/rsrq/sinr are the LTE anchor's.
+   */
   nrMode: 'NSA' | 'SA' | null;
   /** NR leg. In NSA next to the anchor's values, in SA equal to them. */
   nrRsrp: number | null;
@@ -142,8 +159,9 @@ export interface RadioPerSimInfo {
   mcc: string | null;
   mnc: string | null;
   /**
-   * The subscription currently carrying mobile data. Throughput, latency and MOS are
-   * measured over this SIM, so treat it as the reference reading when several are active.
+   * The subscription mobile data goes through right now. When the device is on mobile data,
+   * throughput, latency and MOS are measured over this SIM. On Wi-Fi it is still set, but they
+   * went over Wi-Fi: see `radio.technology`.
    */
   isDefaultData: boolean;
   radio: RadioInfo | null;
@@ -180,6 +198,7 @@ export interface NetworkMetricsSdkPlugin {
   /**
    * Cancels periodic work and a one-shot in progress (FAILED, `stopped`), and releases the GNSS
    * and 5G listeners. Later reads register them again, so it is safe during a recording.
+   * Android only: the iOS plugin does not implement it and the call rejects there.
    */
   stop(): Promise<void>;
 
@@ -188,7 +207,10 @@ export interface NetworkMetricsSdkPlugin {
    * @param options.skipSpeed — when true, skips the native speed phase (useful in foreground
    *   when the app runs Cloudflare JS speed test separately to avoid duplicate work).
    * Rejects if initialize() was not called. Resolves as soon as the run is enqueued: wait for
-   * COMPLETE or FAILED. With no network, FAILED (`no_network`) comes right away.
+   * COMPLETE or FAILED. With no network, FAILED (`no_network`) comes right away. A later call
+   * replaces this run: it gets FAILED (`stopped`), possibly before that call resolves.
+   * If a periodic run is measuring, this one starts when that ends. If the app's process dies
+   * mid-run no terminal event comes at all, so keep a timeout of your own.
    */
   measureNow(options?: { skipSpeed?: boolean }): Promise<{ testId: string }>;
 
@@ -209,11 +231,14 @@ export interface NetworkMetricsSdkPlugin {
   }>;
 
   /**
+   * The last record of any run, periodic included: compare `testId` with the one you ran.
+   * `testId`: the run this record belongs to. Null when there is no result.
    * `posted`: whether that result reached the backend. Null when unknown or no backend.
    * `packetLossMeasured`: see the COMPLETE event. Null when there is no result.
    */
   getLastResult(): Promise<{
     json: string | null;
+    testId: string | null;
     timestamp: number;
     posted: boolean | null;
     packetLossMeasured: boolean | null;
