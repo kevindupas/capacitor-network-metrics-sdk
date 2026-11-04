@@ -19,6 +19,7 @@ export type MeasurementPhase =
   /** Terminal: nothing follows for this testId. `error` says why. */
   | 'FAILED';
 
+/** `stopped`: by `stop()` or by the system. A run stopped by the system is not run again. */
 export type MeasurementFailureCode = 'no_network' | 'config_missing' | 'stopped' | 'error';
 
 export interface MeasurementProgressEvent {
@@ -42,6 +43,11 @@ export interface MeasurementProgressEvent {
   error?: MeasurementFailureCode;
   /** FAILED and POST phases: detail for logs. */
   message?: string;
+  /**
+   * COMPLETE phase. False when no UDP loss test ran, or only the TCP fallback, which hides loss:
+   * MOS and scores then leave loss out, so do not present them as complete.
+   */
+  packetLossMeasured?: boolean;
   /** POST phase. */
   posted?: boolean;
   httpStatus?: number;
@@ -171,7 +177,10 @@ export interface NetworkMetricsSdkPlugin {
     speedTestBaseUrl?: string;
   }): Promise<void>;
 
-  /** Cancels periodic work and a one-shot in progress (FAILED, `stopped`), releases GNSS. */
+  /**
+   * Cancels periodic work and a one-shot in progress (FAILED, `stopped`), and releases the GNSS
+   * and 5G listeners. Later reads register them again, so it is safe during a recording.
+   */
   stop(): Promise<void>;
 
   /**
@@ -199,8 +208,16 @@ export interface NetworkMetricsSdkPlugin {
     } | null;
   }>;
 
-  /** `posted`: whether that result reached the backend. Null when unknown or no backend. */
-  getLastResult(): Promise<{ json: string | null; timestamp: number; posted: boolean | null }>;
+  /**
+   * `posted`: whether that result reached the backend. Null when unknown or no backend.
+   * `packetLossMeasured`: see the COMPLETE event. Null when there is no result.
+   */
+  getLastResult(): Promise<{
+    json: string | null;
+    timestamp: number;
+    posted: boolean | null;
+    packetLossMeasured: boolean | null;
+  }>;
 
   /**
    * Snapshot of GNSS satellites currently visible. Android only.

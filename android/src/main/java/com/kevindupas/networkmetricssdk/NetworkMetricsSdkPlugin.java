@@ -15,6 +15,7 @@ import com.kevindupas.networkmetrics.core.NetworkMetricsSdk;
 import com.kevindupas.networkmetrics.core.PostOutcome;
 import com.kevindupas.networkmetrics.core.RadioSnapshot;
 import com.kevindupas.networkmetrics.model.DeviceResult;
+import com.kevindupas.networkmetrics.model.NetworkMetricsRecord;
 import com.kevindupas.networkmetrics.model.RadioPerSimResult;
 import com.kevindupas.networkmetrics.model.RadioResult;
 import com.kevindupas.networkmetrics.model.SpeedResult;
@@ -34,6 +35,17 @@ public class NetworkMetricsSdkPlugin extends Plugin {
     private static long longOption(PluginCall call, String name, long fallback) {
         Object value = call.getData().opt(name);
         return value instanceof Number ? ((Number) value).longValue() : fallback;
+    }
+
+    /** Null when there is no readable result. */
+    private static Boolean packetLossMeasuredIn(String json) {
+        if (json == null) return null;
+        try {
+            JSONObject record = new JSONObject(json);
+            return record.has("packetLossMeasured") ? record.getBoolean("packetLossMeasured") : null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /** JSONObject.put(name, null) removes the key, and the definitions promise null. */
@@ -126,6 +138,8 @@ public class NetworkMetricsSdkPlugin extends Plugin {
             if (s.getLoadedLatencyMs() != null) data.put("loadedLatencyMs", s.getLoadedLatencyMs());
             if (s.getServerName() != null)     data.put("serverName", s.getServerName());
             if (s.getServerLocation() != null) data.put("serverLocation", s.getServerLocation());
+        } else if (result instanceof NetworkMetricsRecord) {
+            data.put("packetLossMeasured", ((NetworkMetricsRecord) result).getPacketLossMeasured());
         } else if (result instanceof MeasurementFailure) {
             MeasurementFailure f = (MeasurementFailure) result;
             data.put("error", f.getCode());
@@ -265,21 +279,21 @@ public class NetworkMetricsSdkPlugin extends Plugin {
             JSObject o = new JSObject();
             o.put("technology",     c.getTechnology());
             o.put("isRegistered",   c.isRegistered());
-            o.put("mcc",            c.getMcc());
-            o.put("mnc",            c.getMnc());
-            o.put("tac",            c.getTac());
-            o.put("ci",             c.getCi());
-            o.put("nci",            c.getNci());
-            o.put("pci",            c.getPci());
-            o.put("psc",            c.getPsc());
-            o.put("arfcn",          c.getArfcn());
-            o.put("rsrp",           c.getRsrp());
-            o.put("rsrq",           c.getRsrq());
-            o.put("sinr",           c.getSinr());
-            o.put("asuLevel",       c.getAsuLevel());
-            o.put("dbm",            c.getDbm());
+            putN(o, "mcc",          c.getMcc());
+            putN(o, "mnc",          c.getMnc());
+            putN(o, "tac",          c.getTac());
+            putN(o, "ci",           c.getCi());
+            putN(o, "nci",          c.getNci());
+            putN(o, "pci",          c.getPci());
+            putN(o, "psc",          c.getPsc());
+            putN(o, "arfcn",        c.getArfcn());
+            putN(o, "rsrp",         c.getRsrp());
+            putN(o, "rsrq",         c.getRsrq());
+            putN(o, "sinr",         c.getSinr());
+            putN(o, "asuLevel",     c.getAsuLevel());
+            putN(o, "dbm",          c.getDbm());
             o.put("timestampNanos", c.getTimestampNanos());
-            o.put("cellAgeMs",      c.getCellAgeMs());
+            putN(o, "cellAgeMs",    c.getCellAgeMs());
             arr.put(o);
         }
         ret.put("cells", arr);
@@ -292,7 +306,8 @@ public class NetworkMetricsSdkPlugin extends Plugin {
         String json = NetworkMetricsSdk.INSTANCE.getLastResult(getContext());
         long ts     = NetworkMetricsSdk.INSTANCE.getLastResultTimestamp(getContext());
         JSObject ret = new JSObject();
-        ret.put("json", json);
+        putN(ret, "json", json);
+        putN(ret, "packetLossMeasured", packetLossMeasuredIn(json));
         ret.put("timestamp", ts);
         putN(ret, "posted", NetworkMetricsSdk.INSTANCE.getLastResultPosted(getContext()));
         call.resolve(ret);
